@@ -1,5 +1,5 @@
 // Set up all URLs as vars
-var ilsCatcherBase = 'https://ilscatcher2.herokuapp.com/';
+var ilsCatcherBase = 'https://kcl-ilscatcher.herokuapp.com/';
 var ilsSearchBasic = ilsCatcherBase + 'search/basic';
 var ilsItemDetails = ilsCatcherBase + 'items/details';
 var ilsAccountHolds = ilsCatcherBase + 'account/holds';
