@@ -174,10 +174,9 @@ app.controller('SearchCtrl', function($scope, $rootScope, $http, $location, $sta
         search_params['format'] = $scope.format;
         search_params['sort'] = $scope.sort;
         search_params['availability'] = $scope.availability;
-        search_params['loc'] = $scope.loc;
         search_params['qtype'] = $scope.qtype;
 
-        if ($stateParams.query != $scope.query || $stateParams.format != $scope.format || $stateParams.sort != $scope.sort || $stateParams.availability != $scope.availability || $stateParams.loc != $scope.loc || $stateParams.qtype != $scope.qtype) {
+        if ($stateParams.query != $scope.query || $stateParams.format != $scope.format || $stateParams.sort != $scope.sort || $stateParams.availability != $scope.availability || $stateParams.qtype != $scope.qtype) {
             $scope.current_search = $scope.query;
             $location.path('/search').search(search_params);
             return;
@@ -254,10 +253,9 @@ app.controller('SearchCtrl', function($scope, $rootScope, $http, $location, $sta
     $scope.format = $stateParams.format;
     $scope.sort = $stateParams.sort;
     $scope.availability = $stateParams.availability;
-    $scope.loc = $stateParams.loc;
     $scope.qtype = $stateParams.qtype;
 
-    if (($scope.format != 'all') || ($scope.sort != 'relevance') || ($scope.loc != '22') || ($scope.availability != 'off') || ($scope.qtype != 'keyword')) {
+    if (($scope.format != 'all') || ($scope.sort != 'relevance') || ($scope.availability != 'off') || ($scope.qtype != 'keyword')) {
         $scope.advance_search = true;
     }
 
@@ -533,6 +531,7 @@ app.controller('LocationCtrl', function($scope, $rootScope, $http, $ionicLoading
             url: webLocations,
             timeout: 15000,
         }).success(function(data) {
+            console.log(data);
             $scope.locations = data.locations;
             $rootScope.hide_loading();
         }).error(function() {
