@@ -531,7 +531,24 @@ app.controller('LocationCtrl', function($scope, $rootScope, $http, $ionicLoading
             url: webLocations,
             timeout: 15000,
         }).success(function(data) {
-            console.log(data);
+            jQuery.each(data.locations, function() {
+                if (this.entry != null) {
+                    jQuery.each(this.entry, function() {
+                        if (this['gsx$key']['$t'] == 'Sunday') { $scope.sunday = this['gsx$value']['$t'];
+                        } else if (this['gsx$key']['$t'] == 'Monday') { $scope.monday = this['gsx$value']['$t'];
+                        } else if (this['gsx$key']['$t'] == 'Tuesday') { $scope.tuesday = this['gsx$value']['$t'];
+                        } else if (this['gsx$key']['$t'] == 'Wednesday') { $scope.wednesday = this['gsx$value']['$t'];
+                        } else if (this['gsx$key']['$t'] == 'Thursday') { $scope.thursday = this['gsx$value']['$t'];
+                        } else if (this['gsx$key']['$t'] == 'Friday') { $scope.friday = this['gsx$value']['$t'];
+                        } else if (this['gsx$key']['$t'] == 'Saturday') { $scope.saturday = this['gsx$value']['$t'];
+                        } else if (this['gsx$key']['$t'] == 'Phone') { $scope.phone = this['gsx$value']['$t'];
+                        } else if (this['gsx$key']['$t'] == 'Email') { $scope.email = this['gsx$value']['$t'];
+                        } else if (this['gsx$key']['$t'] == 'Addr1') { $scope.addr1 = this['gsx$value']['$t'];
+                        } else if (this['gsx$key']['$t'] == 'Addr2') { $scope.addr2 = this['gsx$value']['$t'];
+                        }
+                    });
+                }
+            });
             $scope.locations = data.locations;
             $rootScope.hide_loading();
         }).error(function() {
@@ -552,6 +569,12 @@ app.controller('EventsCtrl', function($scope, $rootScope, $http, $ionicLoading, 
             url: webEvents,
             timeout: 15000,
         }).success(function(data) {
+            console.log(data.events);
+            jQuery.each(data.events, function() {
+                var d = new Date(this.date);
+                this.date = d.toLocaleDateString();
+                this.time = d.toLocaleTimeString();
+            });
             $scope.events = data.events;
             $rootScope.hide_loading();
         }).error(function() {
@@ -559,9 +582,19 @@ app.controller('EventsCtrl', function($scope, $rootScope, $http, $ionicLoading, 
             popup.alert('Oops', 'An error has occurred, please try again.');
         });
     };
+
     $scope.node_details = function(record_id) {
         node_details.show(record_id);
     };
+
+    $scope.openLink = function(link) {
+        try {
+            window.open(link, '_system', 'location=no,toolbar=yes');
+        } catch (err) {
+            popup.alert('Oops', 'Unable to open that link. Please try again.');
+        }
+    }
+
     $scope.get_events();
 });
 
