@@ -269,7 +269,7 @@ app.controller('HomeCtrl', function($rootScope, $scope, $ionicSlideBoxDelegate, 
     var username = localStorage.getItem('username');
     var password = localStorage.getItem('password');
     if (password != null) { localStorage.removeItem('password'); }
-    if (username != null && password != null && $rootScope.logged_in == false) { login.login(username, password); }
+//    if (username != null && password != null && $rootScope.logged_in == false) { login.login(username, password); }
 });
 
 // Account Controller
@@ -549,8 +549,8 @@ app.controller('LocationCtrl', function($scope, $rootScope, $http, $ionicLoading
                     });
                 }
             });
-            $scope.locations = data.locations;
             $rootScope.hide_loading();
+            $scope.locations = data.locations;
         }).error(function() {
             $rootScope.hide_loading();
             popup.alert('Oops', 'An error has occurred, please try again.');
@@ -624,7 +624,6 @@ app.controller("NewsCtrl",function($scope, $rootScope, $http, $ionicLoading, pop
 app.factory('login', function($http, $rootScope, popup) {
     return {
         login: function(username, password) {
-            $rootScope.show_loading('Logging&nbsp;in...');
             var username = username;
             var password = password;
             if (username != null) { localStorage.setItem('username', username); }
@@ -641,6 +640,7 @@ app.factory('login', function($http, $rootScope, popup) {
                 var token = localStorage.getItem('token');
                 login_url = ilsAccountToken;
                 login_params = {"token": token};
+                $rootScope.show_loading('Logging&nbsp;in...');
             } else {
                 login_url = ilsAccountLogin;
                 login_params = {"username": username, "password": password};
