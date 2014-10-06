@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget 
     id="org.tadl.kcl"
-    version="0.5.3"
-    versionCode = "4"
+    version="0.5.4"
+    versionCode = "5"
     xmlns="http://www.w3.org/ns/widgets"
     xmlns:gap="http://phonegap.com/ns/1.0" >
     <!-- bah -->
@@ -21,7 +21,7 @@
     <preference name="fullscreen" value="true"/>
     <preference name="webviewbounce" value="false"/>
     <preference name="prerendered-icon" value="true"/>
-    <preference name="stay-in-webview" value="false"/>
+    <preference name="stay-in-webview" value="true"/>
     <preference name="ios-statusbarstyle" value="black-opaque"/>
     <preference name="detect-data-types" value="true" />
     <preference name="exit-on-suspend" value="true" />
@@ -31,10 +31,9 @@
     <preference name="android-minSdkVersion" value="16" />
 
     <gap:config-file platform="ios" parent="CFBundleVersion">
-        <string>4</string>
+        <string>5</string>
     </gap:config-file>
 
-    <gap:plugin name="org.apache.cordova.inappbrowser" version="0.3.3" />
     <gap:plugin name="com.ionic.keyboard" version="1.0.2" />
 
     <gap:platform name="ios" />
