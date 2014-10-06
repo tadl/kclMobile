@@ -66,6 +66,15 @@ var app = angular.module('egmobile', ['ionic', 'ngFitText', 'angularUtils.direct
     $rootScope.$on('$viewContentLoaded', function() {
         $ionicScrollDelegate.scrollTop();
     });
+
+    $rootScope.openLink = function(link) {
+        try {
+            window.open(link, '_system', 'location=no,toolbar=yes');
+        } catch (err) {
+            popup.alert('Oops', 'Unable to open that link. Please try again.');
+        }
+    }
+
 })
 
 // Create routes
@@ -227,14 +236,6 @@ app.controller('SearchCtrl', function($scope, $rootScope, $http, $location, $sta
         $timeout(function() {
             $('#searchBox').focus();
         }, 0);
-    }
-
-    $scope.openLink = function(link) {
-        try {
-            window.open(link, '_system', 'location=no,toolbar=yes');
-        } catch (err) {
-            popup.alert('Oops', 'Unable to open that link. Please try again.');
-        }
     }
 
     $scope.toggle_advanced = function() {
@@ -569,7 +570,6 @@ app.controller('EventsCtrl', function($scope, $rootScope, $http, $ionicLoading, 
             url: webEvents,
             timeout: 15000,
         }).success(function(data) {
-            console.log(data.events);
             jQuery.each(data.events, function() {
                 var d = new Date(this.date);
                 this.date = d.toLocaleDateString();
@@ -587,14 +587,6 @@ app.controller('EventsCtrl', function($scope, $rootScope, $http, $ionicLoading, 
         node_details.show(record_id);
     };
 
-    $scope.openLink = function(link) {
-        try {
-            window.open(link, '_system', 'location=no,toolbar=yes');
-        } catch (err) {
-            popup.alert('Oops', 'Unable to open that link. Please try again.');
-        }
-    }
-
     $scope.get_events();
 });
 
@@ -607,6 +599,9 @@ app.controller("NewsCtrl",function($scope, $rootScope, $http, $ionicLoading, pop
             url: webNews,
             timeout: 15000,
         }).success(function(data) {
+            jQuery.each(data.news, function() {
+                this.excerpt = jQuery('<div>' + this.excerpt + '</div>').text();
+            }); 
             $scope.news = data.news;
             $rootScope.hide_loading();
         }).error(function() {
