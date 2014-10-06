@@ -624,6 +624,9 @@ app.controller("NewsCtrl",function($scope, $rootScope, $http, $ionicLoading, pop
 app.factory('login', function($http, $rootScope, popup) {
     return {
         login: function(username, password) {
+            if (username != null) {
+                $rootScope.show_loading('Logging&nbsp;in...');
+            }
             var username = username;
             var password = password;
             if (username != null) { localStorage.setItem('username', username); }
@@ -640,7 +643,6 @@ app.factory('login', function($http, $rootScope, popup) {
                 var token = localStorage.getItem('token');
                 login_url = ilsAccountToken;
                 login_params = {"token": token};
-                $rootScope.show_loading('Logging&nbsp;in...');
             } else {
                 login_url = ilsAccountLogin;
                 login_params = {"username": username, "password": password};
