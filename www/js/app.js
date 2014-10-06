@@ -280,10 +280,10 @@ app.controller('AccountCtrl', function($scope, $rootScope, $http, $location, $io
     }
 
     $scope.logout = function() {
+        var token = localStorage.getItem('token');
         localStorage.clear();
         $rootScope.logged_in = false;
         $rootScope.user_basic = {};
-        var token = localStorage.getItem('token');
         $http({
             method: 'GET',
             url: ilsAccountLogout,
