@@ -15,6 +15,7 @@ var webLocations = ilsCatcherBase + 'web/locations';
 var webEvents = ilsCatcherBase + 'web/events';
 var webNews = ilsCatcherBase + 'web/news';
 var webNode = 'https://www.tadl.org/export/node/json/';
+var webEvent = 'https://www.kalkaskalibrary.org/wp-json/posts/';
 
 var app = angular.module('egmobile', ['ionic', 'ngFitText', 'angularUtils.directives.dirPagination'])
 
@@ -562,7 +563,7 @@ app.controller('LocationCtrl', function($scope, $rootScope, $http, $ionicLoading
 
 
 // Events Controller
-app.controller('EventsCtrl', function($scope, $rootScope, $http, $ionicLoading, popup, node_details) {
+app.controller('EventsCtrl', function($scope, $rootScope, $http, $ionicLoading, popup, event_details) {
     $scope.get_events = function() {
         $rootScope.show_loading();
         $http({
@@ -574,6 +575,8 @@ app.controller('EventsCtrl', function($scope, $rootScope, $http, $ionicLoading, 
                 var d = new Date(this.date);
                 this.date = d.toLocaleDateString();
                 this.time = d.toLocaleTimeString();
+                sessionStorage.setItem('eventdate' + this.uid, this.date);
+                sessionStorage.setItem('eventtime' + this.uid, this.time);
             });
             $scope.events = data.events;
             $rootScope.hide_loading();
@@ -583,15 +586,15 @@ app.controller('EventsCtrl', function($scope, $rootScope, $http, $ionicLoading, 
         });
     };
 
-    $scope.node_details = function(record_id) {
-        node_details.show(record_id);
+    $scope.event_details = function(record_id) {
+        event_details.show(record_id);
     };
 
     $scope.get_events();
 });
 
 // News Controller
-app.controller("NewsCtrl",function($scope, $rootScope, $http, $ionicLoading, popup, node_details) {
+app.controller("NewsCtrl",function($scope, $rootScope, $http, $ionicLoading, popup) {
     $scope.get_news = function() {
         $rootScope.show_loading();
         $http({
@@ -608,9 +611,6 @@ app.controller("NewsCtrl",function($scope, $rootScope, $http, $ionicLoading, pop
             $rootScope.hide_loading();
             popup.alert('Oops', 'An error has occurred, please try again.');
         });
-    };
-    $scope.node_details = function(record_id) {
-        node_details.show(record_id);
     };
     $scope.get_news();
 });
@@ -673,11 +673,11 @@ app.factory('login', function($http, $rootScope, popup) {
 });
 
 // Node Modal factory
-app.factory('node_details', function($http, $ionicModal, $rootScope, popup) {
+app.factory('event_details', function($http, $ionicModal, $rootScope, popup) {
     return {
         show: function(nid, $scope) {
             $scope = $scope || $rootScope.$new();
-            $ionicModal.fromTemplateUrl('template/node_modal.html', function(modal) {
+            $ionicModal.fromTemplateUrl('template/event_modal.html', function(modal) {
                 $scope.modal = modal;
             },
             {
@@ -693,15 +693,19 @@ app.factory('node_details', function($http, $ionicModal, $rootScope, popup) {
             $rootScope.show_loading('Loading&nbsp;details...');
             $http({
                 method: 'GET',
-                url: webNode + nid,
+                url: webEvent + nid,
                 timeout: 15000,
             }).success(function(data) {
-                $rootScope.hide_loading();
-                var nodebody = jQuery('<div>' + data.nodes[0].node.body + '</div>').text();
-                var nodetitle = jQuery('<span>' + data.nodes[0].node.nodetitle + '</span>').text();
-                $scope.node = data.nodes[0].node;
+                var nodebody = jQuery('<div>' + data.content + '</div>').text();
+                var nodetitle = jQuery('<span>' + data.title + '</span>').text();
+                var eventdate = sessionStorage.getItem('eventdate' + data.ID);
+                var eventtime = sessionStorage.getItem('eventtime' + data.ID);
+                $scope.node = data;
                 $scope.node.body = nodebody;
                 $scope.node.nodetitle = nodetitle;
+                $scope.node.eventdate = eventdate;
+                $scope.node.eventtime = eventtime;
+                $rootScope.hide_loading();
                 $scope.openModal();
             }).error(function() {
                 $rootScope.hide_loading();
