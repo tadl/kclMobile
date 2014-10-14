@@ -536,23 +536,22 @@ app.controller('LocationCtrl', function($scope, $rootScope, $http, $ionicLoading
             jQuery.each(data.locations, function() {
                 if (this.entry != null) {
                     jQuery.each(this.entry, function() {
-                        if (this['gsx$key']['$t'] == 'Sunday') { $scope.sunday = this['gsx$value']['$t'];
-                        } else if (this['gsx$key']['$t'] == 'Monday') { $scope.monday = this['gsx$value']['$t'];
-                        } else if (this['gsx$key']['$t'] == 'Tuesday') { $scope.tuesday = this['gsx$value']['$t'];
-                        } else if (this['gsx$key']['$t'] == 'Wednesday') { $scope.wednesday = this['gsx$value']['$t'];
-                        } else if (this['gsx$key']['$t'] == 'Thursday') { $scope.thursday = this['gsx$value']['$t'];
-                        } else if (this['gsx$key']['$t'] == 'Friday') { $scope.friday = this['gsx$value']['$t'];
-                        } else if (this['gsx$key']['$t'] == 'Saturday') { $scope.saturday = this['gsx$value']['$t'];
-                        } else if (this['gsx$key']['$t'] == 'Phone') { $scope.phone = this['gsx$value']['$t'];
-                        } else if (this['gsx$key']['$t'] == 'Email') { $scope.email = this['gsx$value']['$t'];
-                        } else if (this['gsx$key']['$t'] == 'Addr1') { $scope.addr1 = this['gsx$value']['$t'];
-                        } else if (this['gsx$key']['$t'] == 'Addr2') { $scope.addr2 = this['gsx$value']['$t'];
-                        }
+                        if (this['gsx$key']['$t'] == 'Sunday') { $scope.sunday = this['gsx$value']['$t']; } 
+                        else if (this['gsx$key']['$t'] == 'Monday') { $scope.monday = this['gsx$value']['$t']; } 
+                        else if (this['gsx$key']['$t'] == 'Tuesday') { $scope.tuesday = this['gsx$value']['$t']; } 
+                        else if (this['gsx$key']['$t'] == 'Wednesday') { $scope.wednesday = this['gsx$value']['$t']; } 
+                        else if (this['gsx$key']['$t'] == 'Thursday') { $scope.thursday = this['gsx$value']['$t']; } 
+                        else if (this['gsx$key']['$t'] == 'Friday') { $scope.friday = this['gsx$value']['$t']; } 
+                        else if (this['gsx$key']['$t'] == 'Saturday') { $scope.saturday = this['gsx$value']['$t']; } 
+                        else if (this['gsx$key']['$t'] == 'Phone') { $scope.phone = this['gsx$value']['$t']; } 
+                        else if (this['gsx$key']['$t'] == 'Email') { $scope.email = this['gsx$value']['$t']; } 
+                        else if (this['gsx$key']['$t'] == 'Addr1') { $scope.addr1 = this['gsx$value']['$t']; } 
+                        else if (this['gsx$key']['$t'] == 'Addr2') { $scope.addr2 = this['gsx$value']['$t']; }
                     });
                 }
             });
-            $rootScope.hide_loading();
             $scope.locations = data.locations;
+            $rootScope.hide_loading();
         }).error(function() {
             $rootScope.hide_loading();
             popup.alert('Oops', 'An error has occurred, please try again.');
