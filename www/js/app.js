@@ -571,9 +571,9 @@ app.controller('EventsCtrl', function($scope, $rootScope, $http, $ionicLoading, 
             timeout: 15000,
         }).success(function(data) {
             jQuery.each(data.events, function() {
-                var d = new Date(this.date);
-                this.date = d.toLocaleDateString();
-                this.time = d.toLocaleTimeString();
+                var d = moment(this.date);
+                this.time = d.format('h:mm a');
+                this.date = d.format('MM/DD/YYYY');
                 sessionStorage.setItem('eventdate' + this.uid, this.date);
                 sessionStorage.setItem('eventtime' + this.uid, this.time);
             });
