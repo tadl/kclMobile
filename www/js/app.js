@@ -79,7 +79,7 @@ var app = angular.module('egmobile', ['ionic', 'ngFitText', 'angularUtils.direct
 })
 
 // Create routes
-.config(function($stateProvider, $urlRouterProvider, fitTextConfigProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider, fitTextConfigProvider) {
     $stateProvider
     .state('main', {
         url: '/',
@@ -152,6 +152,13 @@ var app = angular.module('egmobile', ['ionic', 'ngFitText', 'angularUtils.direct
         debounce: false,
         delay: 1000
     };
+
+    $httpProvider.defaults.transformRequest = function(data) {
+        if (data === undefined) {
+            return data;
+        }
+        return $.param(data);
+    }
 })
 
 app.controller('MenuCtrl', function($scope, $rootScope, $timeout, $ionicSideMenuDelegate) {
@@ -642,9 +649,10 @@ app.factory('login', function($http, $rootScope, popup) {
                 login_params = {"username": username, "password": password};
             }
             $http({
-                method: 'GET',
+                method: 'POST',
                 url: login_url,
-                params: login_params,
+                data: login_params,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
                 timeout: 15000,
             }).success(function(data) {
                 $rootScope.hide_loading();
